@@ -38,7 +38,7 @@ class Site
 
             User::create($prepared);
             app()->route->redirect('/login');
-            return false;
+            return '';
         }
 
         return (new View())->render('site.signup');

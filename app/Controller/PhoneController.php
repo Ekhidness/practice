@@ -9,32 +9,7 @@ use Src\Request;
 use Src\View;
 use Validators\PhoneValidator;
 use ekhidness\PhoneUtils\PhoneFormatter;
-if (!class_exists(\ekhidness\PhoneUtils\PhoneFormatter::class)) {
-    class_alias(\Controller\PhoneFormatterFallback::class, 'ekhidness\PhoneUtils\PhoneFormatter');
-}
 
-class PhoneFormatterFallback
-{
-    public static function format(string $number): string
-    {
-        $clean = preg_replace('/[^0-9]/', '', $number);
-        if (strlen($clean) === 10) {
-            return '(' . substr($clean, 0, 3) . ') ' . substr($clean, 3, 3) . '-' . substr($clean, 6, 2) . '-' . substr($clean, 8, 2);
-        }
-        if (strlen($clean) === 11 && $clean[0] === '8') {
-            $clean = '7' . substr($clean, 1);
-        }
-        if (strlen($clean) === 11 && $clean[0] === '7') {
-            return '+7 (' . substr($clean, 1, 3) . ') ' . substr($clean, 4, 3) . '-' . substr($clean, 7, 2) . '-' . substr($clean, 9, 2);
-        }
-        return $number;
-    }
-
-    public static function isValid(string $number): bool
-    {
-        return strlen(preg_replace('/[^0-9]/', '', $number)) >= 10;
-    }
-}
 class PhoneController
 {
     public function index(): string
